@@ -1,0 +1,134 @@
+1. Design a Ticket Management System.
+Requirements:
+You must create 3 tables:
+users
+tickets
+departments, change any id datatype and use all DDL
+
+Answer: 
+create table users(user_id int primary key, 
+  name varchar(100), 
+  locality varchar(50), 
+  age int, 
+  gender varchar(10); 
+  
+
+create table tickets(ticket_id int primary key, 
+  user_id int, 
+  amount int, 
+  ticket_date date
+  train_id int
+  coach_type varchar(50),
+  seat_no int,
+  dep_id int,
+  foreign_key(dep_id,user_id);
+
+create table departments(dep_id int primary key, 
+  dep_name varchar(50));
+
+2. Why using VARCHAR for ticket_id is a bad idea?
+Answer: When we use VARCHAR on ticket_id, it may create the inconsistencies while retrieving the data and it may cause data intergity issue. While inserting the data, it may have the entries in incorrect format. 
+Actually it is better when the values for ticket_id can be in specific pattern/format to be followed. 
+
+3. Perform all following Operations
+All DML Commands
+Fetch Data (JOIN)
+Tickets without Department
+Users with Multiple Tickets
+Answer: 
+Applying DML Commands:
+  1. create database new_project;
+  2. alter table users add column address varchar(300);
+  3. alter table tickets rename amount to ticket_price;
+  4. drop departments;
+
+Fetching Data using Joins
+select u.user_id, u.name, t.ticket_id, t.amount, d.dep_name from users u 
+join tickets t on u.user_id=t.user_id
+join department d on t.dep_id=d.dep_id;
+
+Tickets without department:
+select t.ticket_id, d.dep_id from tickets join departments d on t.dep_id=d.dep_id where d.dep_id is null;
+
+Users with Multiple Tickets:
+select distinct t.user_id, u.name from tickets join users u on u.user_id=t.user_id where count(t.user_id)>1;
+------------------------------------------------------------------------
+
+Replace NULL commission with 0 in a table & each column: 
+Ans: update table table_name set commission=0 where commission is NULL;
+
+Find 4th Highest Salary: 
+Ans: select salary from employees order by salary desc limit 1 offset 3;
+
+What will happen if you DELETE without WHERE: 
+Ans: It will delete entire data in the table, if we won't apply condition, so we must apply condition while deleting any specific row to avoid entire data loss from the table.
+
+What is the difference between = vs LIKE: 
+Ans:Equality will filter the rows when the row value from the table is equal to specified value(Meets the condition). While LIKE is used to filter the records when the data matches with the specific pattern which we provided using wildcards.
+
+Write a query for 'I%Love%ALGONEX':
+Ans: select pattern from table_name where pattern like '%I%Love%ALGONEX%';
+
+Write any 10 MySQL fucntions with a clear examples
+Ans: There are basically 6 types of SQL functions
+Namely: NUMERIC: floor()-, ceil(), abs()- used when we are dealing with negative values, values with more decimal places during data analysis
+        STRING: upper(), lower(), concat()- used to bring the data into certain 
+        AGGREGATE:min(), max(), count(), sum(), avg()- 
+        DATE: now, curdate- 
+        CONVERSION:cast(), convert()
+        CONDITIONAL: any(),all()
+
+what is Lambda Function and list comprehension, give an example for each
+Ans: Lambda function is a anonymous function in Python which is used when there is a single statement in the function, without defining the function name. It can be created by using lambda() and can be stored in a variable.
+Ex: value=lambda(return num+100)
+List Comprehension: It is used to create a list of values by specifying the algebraic expression by applying specific condition.
+Ex: comp_list= [a*a for a in range(1,100)]
+
+Write a code for factorial & even/odd of a number within a single function
+Ans: Factorial:
+def factorial_even_odd_check(num):
+  temp=1
+  for i in range(1,num+1):
+    temp=temp*i
+  print("Factorial of ", num, "is ", temp)
+  if (num%2==0){
+    print("The number is even number")
+  }
+  else {
+    print("The number is odd number")
+  }
+
+
+Write a query structure for Triggers/SP/Views/CTE/Sub query types
+Ans: Trigger:
+create trigger trigger_name
+before/after insert/update/delete
+on table_name 
+for each row
+begin...end
+
+Sub Query:
+select columns from table_name where column_name>(select avg(column_name) from table_name)
+
+Views:
+create view view_name as(
+select column_names from table_name
+);
+
+CTE:
+create cte cte_name as(
+select column_names from table_name;
+);
+
+Stored Procedure:
+Delimiter//
+create stored_procedure sp_name as(IN value int)
+begin
+sql statements;
+end //
+delimiter;
+
+What AI models you’re using, how you’ll write a best prompt for better resukt
+Ans: I am using Chat GPT, Gemini AI, BlackBox AI, MS Copilot, Perplexity AI
+I will describe all my requirements to one AI model requesting for prompt and based on the output, I will give that output to another AI model. So by this I will get my required output in this way.
+

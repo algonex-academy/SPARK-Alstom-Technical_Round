@@ -1,0 +1,195 @@
+1.You must create 3 tables:
+
+users
+
+tickets
+
+departments, change any id datatype and use all DDL
+
+create table users(user_id int primarykey,
+name varchar(50),
+address varchar(50)
+);
+insert into users(user_id,name,address)values(1,'prtahibha','marathahalli'),(2,'harshitha','tinfactory'),(3,'suma','bommanahalli'),(4,'ravi','Bangalore');
+
+
+create table tickets(ticket_id int primarykey,
+name varchar(50),
+user_id int,
+amount decimal(10,2)
+destination varchar(50),
+);
+
+insert into tickets(ticket_id,name,user_id,destination) values(101,'prathibha',1,20.0,'tinfactory'),(102,'raju',5,30.0,'bommanahalli'),
+(103,'harshitha',1,40.0,'tinfactory'),(104,'ravi',4,50.0,'Bangalore' );
+
+create table department(department_id int primarykey,
+name varchar(50),
+ticket_id int
+);
+
+insert into tickets(ticket_id,name,user_id,destination) values(10,'prathibha',101),(11,'raju',102),
+(12,'harshitha',103),(13,'ravi',104 );
+
+alter table tickets modify user_id varchar;
+alter table dapartment add amount decimal(10,2);
+
+truncate table department;
+drop table dapartment;
+
+2.Why using VARCHAR for ticket_id is a bad idea?
+By using varchar for ticket_id is an bad idea,because varchar contains the variables and characters its difficult during calculation
+so,by using int it will be easy to calculate.
+
+3.Perform all following Operations
+
+All DML Commands
+
+Fetch Data (JOIN)
+
+Tickets without Department
+
+Users with Multiple Tickets
+
+DML stands for data manupulate language
+three type of commands
+1.insert
+2.delete
+3.update
+
+1.insert
+
+insert into users(user_id,name,address)values(5,'raju','marathahalli');
+
+2.delete
+delete from users where name='prathibha,;
+
+3.update
+update users set address='banglore'
+where name='harshitha';
+
+select u.user_id,u.name,t.user_id,t.name,d.department_id,d.name
+from users u
+join tickets t on u.user_id=t,user_id
+join department d on t.ticket _id=d.ticket_id;
+
+select t.ticket _id,t.name,d.ticket_id
+from tickets t
+left join department d on t.ticket_id=d.ticket_id;
+
+select u.name,t.ticket_id,count(t.user_id) as count_users
+from users u
+join tickets t on u.user_id=t,user_id
+join department d on t.ticket _id=d.ticket_id
+group by t.user_id
+having count_user>1;
+
+4.Replace NULL commission with 0 in a table & each column
+ select 
+    employee_id,
+    COALESCE(commission, 0) AS commission from  employees;
+
+5.Find 4th Highest Salary
+
+select name,salary
+from company
+order by salary desc
+offset 3,limit 1;
+
+6.What will happen if you DELETE without WHERE
+It will delete the complete rows
+
+7.What is the difference between = vs LIKE
+these are the where filters using in filtering
+when user know the exact value in that case we can use the '=' and 
+we know the any letter in the word in that case 'like' is the safest
+Ex:the user know the one character 't' but he can't remember entire name
+we can use like '%t%'
+
+8.Write a query for 'I%Love%ALGONEX'
+select full_name 
+from company
+where discription like'I%Love%Algonex';
+
+
+9.Write any 10 MySQL fucntions with a clear examples
+1.count()
+select count(*) from users;
+2.sum()
+select department,sum(salary) as total_salary
+from company
+group by department;
+3.avg()
+select department,avg(salary) as avg_salary
+from company
+group by department
+where avg_salary>15000;
+4.max()
+select department,max(salary) as max_salary
+from company
+group by department
+order by max_salary desc;
+5.min()
+select department,min(salary) as min_salary
+from company
+group by department
+order by min_salary desc;
+6.concat()
+select concat('first_name',' ','last_name') from users;
+7.case()
+create table users(user_id,name,case when salary>100000 then 'highest_salary'
+when salary<5000 then 'lowest_salary');
+8.if()
+create table users(user_id,name,if value<0 then 'can't insert');
+9.round()
+select name,round(avg(amount))
+from tickets;
+10.upper()
+select upper(e-mail)
+from users;
+
+10.Write a code for factorial & even/odd of a number within a single function
+def number_operations(n):
+    if n % 2 == 0:
+        print(f"{n} is Even")
+    else:
+        print(f"{n} is Odd")
+    if n < 0:
+        print("Factorial is not defined for negative numbers")
+    else:
+        fact = 1
+        for i in range(1, n + 1):
+            fact *= i
+        print(f"Factorial of {n} is {fact}")
+num = int(input("Enter a number: "))
+number_operations(2)
+
+
+11.Write a query structure for Triggers/SP/Views/CTE/Sub query types
+STORED PROCEDURES
+create procedure procedure_name(parameter)
+delimiter //
+begin
+SQL block of code
+end;
+end //
+delimiter;
+call procedure_name(parameter)
+VIEWS
+create view view_name as( 
+select quiries
+);
+select * from view_name;
+
+12.What AI models you’re using, how you’ll write a best prompt for better resukt
+chatgpt,claud AI 
+problem,task,what we required
+
+
+
+
+
+
+
+
+

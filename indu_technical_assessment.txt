@@ -1,0 +1,197 @@
+You must create 3 tables:
+
+users
+
+tickets
+
+departments, change any id datatype and use all DDL
+
+create database ticket_management;
+use ticket_management;
+create table users(user_id int primary key,user_name varchar(50),loc varchar(50),email varchar(50));
+insert into users values(101,'lokesh','banglore','loki55678@gmail.com');
+insert into users values(102,'sai','singapur','abc@gmail.com');
+insert into users values(103,'rani','tirupati','rani678@gmail.com');
+insert into users values(104,'teju','hyderabad','teju8@gmail.com');
+
+create table tickets(user_id int,ticket_id int(20),loc varchar(50),user_name varchar(30));
+insert into values(101,6778,'banglore','lokesh'),
+(102,6787,'singapur','sai'),
+(103,5673,'tirupati','rani'),
+(104,5435,'hyderabad','teju'),
+(105,7878,'nellore','vani');
+
+create table departments(user_id int,ticket_id int(30),dept_id,dept_name varchar(30));
+insert into departments values(101,6778,201,'bus'),
+(102,6787,202,'train'),
+(103,5673,203,'car'),
+(106,5435,204,'bike');
+
+
+alter table tickets add(destination varchar(30));
+alter table tickets modify(email varchar(60));
+  drop table users;
+
+Why using VARCHAR for ticket_id is a bad idea?
+if varchar is a bad ider for ticket_id because it is having some performance issues when we have perform the tables and it can slowly performs the joins,and other queries it is having low integrity.
+
+Perform all following Operations
+
+All DML Commands
+
+Fetch Data (JOIN)
+
+Tickets without Department
+
+Users with Multiple Tickets
+
+insert into departments values(101,6778,'bus'),
+(102,6787,'train'),
+(103,5673,'car'),
+(106,5435,'bike');
+
+Fetch Data (JOIN)
+
+select u.user_id,t.user_id from users as u
+join tickets as t
+on u.user_id=t.user_id;
+
+Tickets without Department
+SELECT ticket_id,user_id
+FROM tickets
+WHERE department_id IS NULL;
+
+Users with Multiple Tickets
+
+SELECT 
+    user_id,COUNT(ticket_id) AS ticket_count
+FROM tickets
+GROUP BY user_id
+HAVING COUNT(ticket_id) > 1
+ORDER BY ticket_count DESC;
+
+4.Replace NULL commission with 0 in a table & each column
+
+
+SELECT 
+    user_id,
+    user_name,
+    ISNULL(commission, 0) AS commission
+FROM users;
+
+5.Find 4th Highest Salary
+
+SELECT DISTINCT salary
+FROM table
+ORDER BY salary DESC
+off set 3 limit 1;
+
+6.What will happen if you DELETE without WHERE
+ we can delete the table with out using the where class we can remove the all rows from the table.
+delete command we can used  with out where class they cannot deltete or remove partcicular column.
+
+7.What is the difference between = vs LIKE
+
+- Use =: When you need strict equality (IDs, exact names, codes).
+- Use LIKE: When searching for patterns (prefixes, substrings, flexible text queries).
+
+8.Write a query for 'I%Love%ALGONEX'
+
+SELECT *
+FROM your_table
+WHERE your_column LIKE 'I%Love%ALGONEX';
+
+9.Write any 10 MySQL fucntions with a clear examples
+select max(salary) from employees;
+select min(age) from employees;
+select avg(floor) from employees;
+select sum(salary) from employees;
+select count(*) from rmployee;
+SELECT CONCAT(first_name, ' ', last_name) AS full_name 
+FROM employees;
+SELECT NOW() AS current_datetime;
+SELECT curdate() AS current_date;
+select upper(lower)from users;
+select replace(email.com,'@gmail.com');
+
+10.what is Lambda Function and list comprehension, give an example for each
+A lambda function is essentially a small, anonymous function—meaning it doesn’t need a name.
+It’s often used when you want to perform a quick operation without formally defining a full function.
+
+x = lambda a: a + 10
+print(x(5))   # Output: 15
+
+
+11.Write a code for factorial & even/odd of a number within a single function
+
+def factorial_and_even_odd(n):
+    # Calculate factorial
+    factorial = 1
+    for i in range(1, n + 1):
+        factorial *= i
+    
+    # Check even or odd
+    if n % 2 == 0:
+        parity = "Even"
+    else:
+        parity = "Odd"
+    
+12.Write a query structure for Triggers/SP/Views/CTE/Sub query types
+
+CREATE TRIGGER trigger_name
+AFTER INSERT -- or BEFORE/AFTER UPDATE/DELETE
+ON table_name
+FOR EACH ROW
+BEGIN
+--- sql stament
+END
+
+-- stored procedurs
+CREATE PROCEDURE procedure_name
+    ([parameter])
+BEGIN
+    -- SQL statement
+end
+
+-- views 
+create view view_name as 
+select columns
+from table
+where condition;
+
+-- sub query types
+1.single row sub query
+returns one value
+
+SELECT column1, column2
+FROM table_name
+WHERE column1 = (
+    SELECT column1
+    FROM other_table
+    WHERE condition
+);
+
+2.multiple  row  sub query
+returns more than one value
+
+SELECT column1, column2
+FROM table 1
+WHERE column1 IN (
+    SELECT column1
+    FROM table 2
+    WHERE condition
+);
+
+3.cor related row sub query
+SELECT column1, column2
+FROM table_name t
+WHERE column1 = (
+    SELECT MAX(column1)
+    FROM other_table o
+    WHERE o.foreign_key = t.primary_key
+);
+
+13.What AI models you’re using, how you’ll write a best prompt for better result.
+i prefor copilot,jupitor and chat gpt
+I can used copilot,jupitor ai models for clear and efficient informantion and get the currect informations about we have.
+generated the answer step by step with clear explanation to easily understand.

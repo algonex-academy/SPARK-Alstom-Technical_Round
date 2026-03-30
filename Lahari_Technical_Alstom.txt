@@ -1,0 +1,214 @@
+Design a Ticket Management System.
+
+Requirements:
+1. You must create 3 tables:
+users
+tickets
+departments, change any id datatype and use all DDL
+
+create database ticket_management;
+use ticket_management;
+
+create table users(user_id int primary key auto_increment, user_name varchar(50), address varchar(50), email varchar(40));  -- create user table
+
+create table ticket(user_id int auto_increment, ticket_id varchar(20), user_name varchar(50), address varchar(50), dept varchar(30)); -- create ticket table 
+alter table ticket modify ticket_id char(7); -- alter the ticket_id column datatype as char
+create table department(user_id int auto_increment, ticket_id char(7), dept varchar(30)); -- create department table
+ 
+
+create table admin(admin_id int auto_increment, dept varchar(20));
+drop table admin; -- drop admin table
+
+2. Why using VARCHAR for ticket_id is a bad idea?
+If we use VARCHAR for ticket_id then different size of numbers are created while booking the tickets. So instead of VARCHAR if we use CHAR(size) then it allows to create fixed size of ticket_id for all the users.
+So, By that it reduce the redundancy of creating the ticket_id.
+
+3. Perform all following Operations
+->All DML Commands
+->Fetch Data (JOIN)
+->Tickets without Department
+->Users with Multiple Tickets
+
+-> ALL DML Commands
+
+insert into users(user_name, address, email) values  -- insert the values into table
+('John', 'Nellore', 'john@gmail.com'),
+('James', 'Tirupathi', 'james5@gmail.com'),
+('Priya', 'Nellore', 'priya@gmail.com'),
+('Kailesh', NULL, NULL),
+('Asma', NULL, NULL);
+select *from users;
+
+delete from users where user_name = 'Kailesh'; -- delete the row
+
+insert into ticket(ticket_id, user_name, address, dept) values 
+('1a345d2', 'John', 'Nellore', 'bus'),
+('22f4r56', 'James', 'Tirupathi', 'railway'),
+('77tgh31', 'Priya', 'Nellore', 'bus'),
+('56thd3', 'Asma', NULL)
+select *from ticket;
+
+
+insert into department(ticket_id, dept) values
+('1a345d2', 'bus'),
+('22f4r56', 'railway'),
+('77tgh31', 'bus'),
+('u7htn4s', NULL);
+('56thd3', NULL)
+select *from department;
+
+upadte department
+set dept = 'railway'
+where ticket_id = 'u7htn4s'; -- update the value
+
+->Fetch Data (JOIN)
+select u.user_id, u.user_name, t.ticket_id from users u
+join ticket t
+where u.user_id = t.user_id; -- fetching the user data using joins
+
+select u.user_id from users u
+UNION ALL
+select t.user_id from ticket t
+UNION ALL
+select d.user_id from department d;
+
+->Tickets without Department
+select u.user_id, d.ticket_id, d.dept from users u
+join department d
+where dept IS NULL; -- finding the users whose department is null
+
+
+-> Users with Multiple Tickets
+select u.user_id, count(t.ticket_id) from users u
+join ticket t
+on u.user_id  = t.user_id
+group by u.user_id
+having count(t.ticket_id) > 1; -- finding users who have more than one ticket
+
+4. Replace NULL commission with 0 in a table & each column
+select user_id, ISNULL('commission', 0) from user; -- replace null values with 0
+
+5. Find 4th Highest Salary
+select *from table
+order by salary desc offset 3 limit 1; -- finding 4th highest salary
+
+6. What will happen if you DELETE without WHERE
+DELETE is a DML command which is used to delete a sepecific row by using WHERE condition.
+Syntax :- delete from table_name where condition;
+If we use DELETE without WHERE it will delete all the rows from the table.
+
+7. What is the difference between = vs LIKE
+= and LIKE both are operators used for patterns and also return the result by checking the condition 
+= is used for assignment of value and also return the result if the assigned value meet the condition
+and LIKE operator is used to check whether the given pattern is present in the data.
+
+8. Write a query for 'I%Love%ALGONEX'
+SELECT *from table_name
+WHERE col_name LIKE 'I%Love%ALGONEX'; -- query for 'I%Love%ALGONEX' using like operator
+
+9. Write any 10 MySQL fucntions with a clear examples
+There are mainly 6 types of MySQL functions - String Functions, Numeric functions, Date and Time Functions, Aggregate Functions, Conditional Functions and Type Conversion Functions
+Ex :-
+select max(salary) from employee; -- max() function
+select min(salary) from employee; -- min() function
+select avg(salary) from employee; -- average() function
+select count(emp) from employee; -- count() function
+select sum(salary) from employee; -- sum() function
+select ceil(salary) from employee; -- ceil() function
+select floor(salary) from employeee; -- floor() function
+select round(salary, 2) from employee; -- round() function
+select upper('lahari'); -- upper() function
+select upper(emp_name) from employee;
+selecet lower(emp_name) from employee; -- lower() function
+select substring('email', 'laha) from employee; -- substring() function
+select mod(salary) from employees; -- mod() function
+
+10. what is Lambda Function and list comprehension, give an example for each
+Lambda function is used to perform one line operation.
+List comprehension is a simple way to create lists in Python using a single line of code.
+Ex:- sum of array elements
+arr = [1, 2, 3, 4, 5]
+total = sum([x for x in arr])
+print(total) 
+
+11. Write a code for factorial & even/odd of a number within a single function
+def function(n):
+  print("even" if n%2 == 0 else "odd")
+  for i in range(1, n+1):
+    fact *= i
+  print("Factorial:", fact)
+n = int(input())
+print(function(n))
+
+12. Write a query structure for Triggers/SP/Views/CTE/Sub query types
+-- Triggers 
+Triggers is a type of event that automatically executed when the event occurs
+There are 6 types of triggers - before insert, after insert, before update, after update, before delete, after delete
+syntax -
+create trigger trigger_name
+before/after insert/update/delete
+on table_name
+for each_row
+delimiter *
+begin 
+-- sql statements
+end
+delimiter *;
+
+-- Stored Procedures
+Stored Procedures is a reusable code just like a functions in python.
+there are 3 types of stored procedures - IN, OUT, INOUT
+create procedure procedure_name([parameters])
+begin 
+-- sql statements
+end
+
+-- Views 
+Viwes is a virtual query stored table. It doesn't store the data physically. Once the mysql workbench is closed it will automatically dissaperared.
+there are mainly 3 types of views - simple view, complex view, updatable view
+syntax - 
+create view view_name AS
+select column1, column2
+from table_name
+where condition;
+
+-- CTE(Common Table Expression)
+A CTE is a temporary result set used within a query.
+WITH cte_name AS (
+    select column1, column2
+    from table_name
+    where condition
+)
+select *from cte_name;
+
+-- Subquery types
+subquery means query within a query
+there are mainly 3 types of subqueries :
+1.single row subquery - In this inner query returns only single row as output and send it to the outer query
+syntax - 
+select col1, (select avg(col) from tb_name)  from tb_name;
+2.Multi row subquery - In this inner query returns multiple rows as output and ssend it to the output query
+syntax-
+select col1, (select col1, count(col) from tb_name
+                group by col1) from tb_name;
+3.Co-related subquery - In this the inner query depends on outer query. It iterates for every value. And it also works as self join
+and there are many other forms like subquery with SELECT clause, subquery with FROM clause etc
+
+13. What AI models you’re using, how you’ll write a best prompt for better result
+I prefer OPENAI GPT 3.5 model.
+Beacause it gives efficient code and optimize the results based on our query and it also has the option of NLP which is Natural Language Processing, so it tries to give the
+result as natural as human. It also provide resoueces by searching all the resources from internet for further verification. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

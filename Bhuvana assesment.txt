@@ -1,0 +1,266 @@
+Design a Ticket Management System.
+Requirements:
+You must create 3 tables:
+users
+tickets
+departments, change any id datatype and use all DDL
+-- create table user
+
+CREATE TABLE users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,  
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE
+);
+INSERT INTO users (name, email) VALUES
+('Bhuvana', 'bhuvana@gmail.com'),
+('Vinay', 'vinay@gmail.com'),
+('Shaistha', 'shaistha@gmail.com');
+select * from users;
+
+-- create table tickets
+
+CREATE TABLE departments (
+    dept_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    dept_name VARCHAR(50) NOT NULL
+);
+INSERT INTO departments (dept_name) VALUES
+('IT'),
+('HR'),
+('Support');
+select * from departments;
+
+-- create tickets table
+
+create table tickets(
+    booking_id int auto_increment primary_key,
+    name varchar(50),
+    email varchar(50),
+    seat no int()
+);
+insert into tickets(booking_id,name,email,seat no) values (101,'rani','rani12@gmail.com',110),
+(102,'raju','raju146@gmail.com',111),
+(103,'swetha','swetha22@gmail.com',112),
+(104,'raghu','raghu55@gmail.com',113),
+(105,'manu','manu678@gmail.com',114);
+
+ALTER TABLE users ADD phone VARCHAR(15);
+RENAME TABLE tickets TO support_tickets;
+ALTER TABLE users
+DROP COLUMN phone;
+TRUNCATE TABLE departments;
+
+2.Why using VARCHAR for ticket_id is a bad idea?
+Slower Performance,Wastes Storage Space, Sorting Problems
+
+3.Perform all following Operations
+All DML Commands
+Fetch Data (JOIN)
+Tickets without Department
+Users with Multiple Tickets
+
+UPDATE tickets
+SET issue = 'Password reset issue'
+WHERE ticket_id = 1;
+DELETE FROM tickets
+WHERE ticket_id = 4;
+-- inner join
+SELECT t.ticket_id, u.name, d.dept_name, t.issue
+FROM tickets t
+INNER JOIN users u ON t.user_id = u.user_id
+INNER JOIN departments d ON t.dept_id = d.dept_id;
+-- left join
+SELECT t.ticket_id, u.name, d.dept_name, t.issue
+FROM tickets t
+LEFT JOIN users u ON t.user_id = u.user_id
+LEFT JOIN departments d ON t.dept_id = d.dept_id;
+
+SELECT *
+FROM tickets
+WHERE dept_id IS NULL;
+
+SELECT u.user_id, u.name, COUNT(t.ticket_id) AS total_tickets
+FROM users u
+JOIN tickets t ON u.user_id = t.user_id
+GROUP BY u.user_id, u.name
+HAVING COUNT(t.ticket_id) > 1;
+
+4 . Replace NULL commission with 0 in a table & each column
+
+SELECT employee_id,
+       COALESCE(commission, 0) AS commission
+FROM employees;
+
+
+5 . Find 4th Highest Salary
+
+SELECT DISTINCT salary
+FROM employees
+ORDER BY salary DESC
+LIMIT 1 OFFSET 3;
+
+
+6 . What will happen if you DELETE without WHERE
+
+ it deletes all rows in the table but keeps the table structure.
+
+7 . What is the difference between = vs LIKE
+
+ = (Equals Operator)
+Used for exact match
+No wildcards allowed.
+ Like : (pattern matching)
+Used for searching patterns
+Works with wildcards.
+
+8 . Write a query for 'I%Love%ALGONEX'
+
+SELECT *
+FROM employees
+WHERE name LIKE 'I%Love%ALGONEX';
+
+9 .Write any 10 MySQL fucntions with a clear examples
+
+-- Count()  
+ SELECT COUNT(*) AS total_employees
+FROM employees;
+-- Sum() 
+SELECT SUM(salary) AS total_salary
+FROM employees;
+-- Avarege ()
+SELECT AVG(salary) AS avg_salary
+FROM employees;
+-- Max() 
+SELECT MAX(salary) AS highest_salary
+FROM employees;
+-- Min()  
+select min(salary) As lowest_salary
+FROM employees;
+-- Upper() 
+SELECT UPPER(mail) AS mail_upper
+FROM employees;
+-- LOWER() 
+SELECT LOWER(name) AS name_lower
+FROM employees;
+-- NOW() 
+SELECT NOW();
+-- LENGTH() 
+SELECT email, LENGTH(email) AS emaillength
+FROM employees;
+-- COALESCE() 
+SELECT name, COALESCE(commission, 0) AS commission
+FROM employees;
+
+10 . what is Lambda Function and list comprehension, give an example for each
+
+Lambda Function:
+A lambda function is a small anonymous function (no name) used for short operations.
+ Syntax:
+add = lambda a, b: a + b
+print(add(3, 5));
+list comprehension A short and clean way to create lists using a single line of code.
+
+11 . Write a code for factorial & even/odd of a number within a single function
+
+DELIMITER //
+CREATE FUNCTION factorial_even_odd(n INT)
+RETURNS VARCHAR(255)
+BEGIN
+     result VARCHAR(255);
+    IF n % 2 = 0 THEN
+        SET result = CONCAT('Factorial: ', fact, ' | Even Number');
+    ELSE
+        SET result = CONCAT('Factorial: ', fact, ' | Odd Number');
+    END IF;
+    RETURN result;
+END //
+DELIMITER ;
+CALL factorial_even_odd(n INT);
+
+12 . Write a query structure for Triggers/SP/Views/CTE/Sub query types
+
+Stored procedures :
+DELIMITER //
+CREATE PROCEDURE procedure_name(IN param1 datatype, OUT param2 datatype)
+BEGIN
+    -- SQL logic
+END //
+DELIMITER ;
+
+-- IN parameter 
+
+CREATE PROCEDURE get_customer_by_id(IN cust_id INT)
+BEGIN
+    SELECT * FROM customers WHERE id = cust_id;
+END;
+
+-- Out parameter 
+
+CREATE PROCEDURE get_total_count(OUT total INT)
+BEGIN
+    SELECT COUNT(*) INTO total FROM customers;
+END;
+
+-- INOUT parameter 
+
+CREATE PROCEDURE update_value(INOUT num INT)
+BEGIN
+    SET num = num * 2;
+END;
+
+views  structure:
+
+CREATE VIEW view_name AS
+SELECT column1, column2
+FROM table_name
+WHERE condition;
+
+-- Simple View :
+
+CREATE VIEW simple_view AS
+SELECT id, name, salary
+FROM employees;
+
+-- complex view :
+
+CREATE VIEW complex_view AS
+SELECT e.name, d.department_name
+FROM employees e
+JOIN departments d ON e.dept_id = d.id;
+
+-- Metrialised view 
+
+CREATE MATERIALIZED VIEW sales_summary AS
+SELECT product_id, SUM(amount)
+FROM sales
+GROUP BY product_id;
+-- ctes
+WITH cte_name AS (
+    SELECT column1, column2
+    FROM table_name
+)
+SELECT * FROM cte_name;
+
+--Single Row Subquery
+SELECT * FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees);
+-- Multiple Row Subquery
+SELECT * FROM employees
+WHERE dept IN (SELECT dept FROM departments);
+-- Correlated Subquery
+SELECT e1.name
+FROM employees e1
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees e2
+    WHERE e1.dept = e2.dept
+);
+
+I am using GPT (Generative Pre-trained Transformer)
+Developed by OpenAI
+ It is used for:
+Answering questions
+Writing code
+Explaining concepts
+ Best Prompt are Be Clear, Give Details,Mention Format
+
+COMMIT;

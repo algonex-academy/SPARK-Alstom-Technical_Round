@@ -1,0 +1,205 @@
+1.Design a Ticket Management System.
+Requirements:
+You must create 3 tables:
+users
+tickets
+departments, change any id datatype and use all DDL
+
+-- Users table
+CREATE TABLE Users(user_id INT PRIMARY KEY,
+                   user_name VARCHAR(50) NOT NULL,
+                   address VARCHAR(50),
+                   phone_number INT UNIQUE
+                  );
+-- Tickets table
+CREATE TABLE Tickets(user_id INT,
+                     dept_id INT,
+                     ticket_no VARCHAR(50) UNIQUE,
+                     FOREIGN KEY (user_id) REFERENCES Users(user_id),
+                     FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
+                    );
+-- Department table
+CREATE TABLE Departments(dept_id INT PRIMARY KEY,
+                         dept_name VARCHAR(50),
+                         location VARCHAR(50)
+                        );
+-- DDl Commands
+-- CREATE is already used in the table creation
+ALTER Table Users MODIFY phone_number BIGINT; 
+ALTER TABLE Users RENAME TO `customer_users`;
+ALTER TABLE customer_users ADD email VARCHAR(50);
+
+-- For demonstration of DDL commands
+TRUNCATE TABLE Tickets;
+DROP TABLE Tickets;
+
+2.Why using VARCHAR for ticket_id is a bad idea?
+=>Using VARCHAR for ticket_id is generally a bad idea because:
+Performance: Numeric types (INT, BIGINT) are faster for indexing, searching, and sorting compared to strings.
+Storage: VARCHAR consumes more space than numeric types for the same values.
+Data integrity: Numeric IDs ensure consistent, sequential, and unique values, whereas strings can have formatting errors or accidental duplicates.
+Arithmetic operations: It is easier to generate, increment, or compare numeric IDs than string IDs.
+
+3.Perform all following Operations
+All DML Commands
+Fetch Data (JOIN)
+Tickets without Department
+Users with Multiple Tickets
+
+-- DML Commands
+-- INSERT
+INSERT INTO customer_users(user_id, user_name, address, phone_number, email)
+VALUES (1, 'Rani', 'Bangalore', 9876543210, 'rani@gmail.com'),
+      (2, 'Ram' , 'Nellore', 9876543211, 'ram@gmail.com'),
+      (3, 'Sita', 'Tirupati', 9876543212, 'seetha@gmail.com);
+
+INSERT INTO Departments (dept_id, dept_name, location)
+VALUES (101, 'IT', 'Block A'),
+        (102, 'HR', 'Block A');
+
+INSERT INTO Departments (dept_id, location)
+VALUES(103, 'BLOCK B'),
+       (104, 'BLOCK C');
+
+INSERT INTO Tickets (user_id, dept_id, ticket_no)
+VALUES (1, 101, 'TKT-001'),
+        (2, 102, 'TKT-002'),
+        (3, 103, 'TKT-003'),
+       (1, 101, 'TKT-004'),
+      (2, 102, 'TKT-005');
+
+-- UPDATE
+UPDATE Departments
+SET location='BLOCK B'
+WHERE dept_id=102;
+
+-- DELETE
+DELETE FROM Departments 
+WHERE location='BLOCK C';
+
+-- Fetch Data (JOIN)
+SELECT cu.user_id, cu.user_name, t.ticket_no, d.dept_name
+FROM customer_users cu
+JOIN Tickets t ON cu.user_id = t.user_id
+JOIN Departments d ON t.dept_id = d.dept_id;
+
+-- Tickets without Department 
+SELECT *
+FROM Tickets
+WHERE dept_id IS NULL;
+
+-- Users with Multiple Tickets
+SELECT user_id, COUNT(*) AS ticket_count
+FROM Tickets
+GROUP BY user_id
+HAVING COUNT(*) > 1;
+
+4.Replace NULL commission with 0 in a table & each column
+SELECT IFNULL(commission, 0) AS commission
+FROM employees;
+
+5.Find 4th Highest Salary
+SELECT DISTINCT salary  
+FROM employees  
+ORDER BY salary DESC  
+LIMIT 1 OFFSET 3;
+
+6.What will happen if you DELETE without WHERE
+If DELETE is used without WHERE, all records in the table will be deleted, but the table structure remains.
+=>ex:DELETE FROM Employees
+
+7.What is the difference between = vs LIKE
+=>The = operator is used for exact matching, whereas the LIKE operator is used for pattern matching in SQL. 
+When we use =, the value must match exactly as given. In contrast, LIKE allows searching using patterns 
+with wildcards such as % (any number of characters) and _ (single character).
+=>SELECT * FROM employees
+WHERE name = 'Rani'; --This returns only rows where the name is exactly Rani.
+=>SELECT * FROM employees
+WHERE name LIKE 'R%'; -- This returns all names starting with R, such as Rani, Ram.
+
+8.Write a query for 'I%Love%ALGONEX'
+SELECT *
+FROM table_name
+WHERE column_name LIKE 'I%Love%ALGONEX';
+
+9.Write any 10 MySQL fucntions with a clear examples
+
+1. UPPER() – converts to uppercase
+=>SELECT UPPER('abc');
+2.LOWER() – converts to lowercase
+=>SELECT LOWER('ABC');
+3.NOW() – returns current date and time
+=>SELECT NOW();
+4.CURDATE() – returns current date
+=>SELECT CURDATE();
+5.IFNULL() – replaces NULL with given value
+=>SELECT IFNULL(NULL, 0);
+6.COUNT() – counts rows
+=>SELECT COUNT(*) FROM employees;
+7.ROUND() – rounds a number
+=>SELECT ROUND(12.345, 2);
+8.ABS() – returns absolute value
+=>SELECT ABS(-10);
+9.MAX() – finds maximum value
+=>SELECT MAX(salary) FROM employees;
+10.AVG() – calculates average value
+=>SELECT AVG(salary) FROM employees;
+
+10.what is Lambda Function and list comprehension, give an example for each
+=>A Lambda function is a small anonymous function in Python that is defined using the lambda keyword.
+It can take any number of arguments but can have only one expression.
+=>ex:square = lambda x: x * x
+print(square(5))
+=>A List Comprehension is a concise way to create lists in Python using a single line of code. 
+It is more readable and efficient than using loops.
+=>ex:numbers = [1, 2, 3, 4]
+squares = [x * x for x in numbers]
+print(squares)
+
+11.Write a code for factorial & even/odd of a number within a single function
+def check_number(n):
+    if n % 2 == 0:
+        print("Even")
+    else:
+        print("Odd")
+    fact = 1
+    for i in range(1, n + 1):
+        fact *= i
+    print("Factorial:", fact)
+check_number(5)
+
+12.Write a query structure for Triggers/SP/Views/CTE/Sub query types
+=>Triggers
+CREATE TRIGGER trigger_name
+BEFORE INSERT ON table_name
+FOR EACH ROW
+BEGIN
+   -- logic
+END;
+=>Stored Procedures
+CREATE PROCEDURE proc_name()
+BEGIN
+   SELECT * FROM table_name;
+END;
+=>Views
+CREATE VIEW view_name AS
+SELECT column1 FROM table_name;
+=>CTE
+WITH cte_name AS (
+   SELECT * FROM table_name
+)
+SELECT * FROM cte_name;
+=>Subquery
+SELECT *
+FROM table1
+WHERE column IN (SELECT column FROM table2);
+
+13.What AI models you’re using, how you’ll write a best prompt for better result
+=>I am using OpenAI’s GPT-5.3 model, which can understand and generate human-like text.
+=>The prompt I'll write to get good results are
+1.The prompt should be clear and specific, so the AI understands exactly what is required.
+2.It should provide context, like background information or target audience.
+3.The desired output format should be mentioned, for example, paragraph, bullets, or table.
+4.Examples can be included to help the AI understand the requirement.
+5.Constraints such as word limit, tone, style, or step-by-step instructions should be given for precise answers.
+

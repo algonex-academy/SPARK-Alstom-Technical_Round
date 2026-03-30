@@ -1,0 +1,132 @@
+design ticket management system
+requirements:
+you must create 3 tables
+users
+tickets
+departments,change any id datatype and use all ddl
+
+create table users(
+user_id int primary key auto_increment,
+name char(50),
+email_id varchar(100)
+);
+
+create table tickets(
+ticket_name varchar(100),
+ticket_id int
+);
+
+create table departments(
+department_name varchar(100),
+department_id int
+);
+alter table department,add department_id,int
+alter table department,modify add department_id,int
+alter table department,drop add department_id,int;
+drop table department,
+drop table department_id;
+truncate table department;
+
+
+Why using VARCHAR for ticket_id is a bad idea?
+ans(
+no,its not bad idea.because of ticket_id has number generally we used numbers in varchar
+
+
+
+Perform all following Operations
+
+All DML Commands
+
+Fetch Data (JOIN)
+
+Tickets without Department
+
+Users with Multiple Tickets
+
+create table 
+insert into department(department,name,department_id)values
+(ece,anee,'190'),
+(cse,chitra,'192'),
+(eee,manu,'198');
+update table department
+set column_values
+where condition;
+selectfrom table_name
+whre condition;
+
+join
+select department.department_id,tickect.ticket_id
+from department tb1
+inner join tb2
+on tb1.department_id=tb2.tickect_id;
+
+Replace NULL commission with 0 in a table & each column
+
+Find 4th Highest Salary
+select from salary
+order by salary desc
+limit 4;
+
+What will happen if you DELETE without WHERE
+if delete means in a table entire rows deleted.
+
+What is the difference between = vs LIKE
+like we are using wildcards only
+like defines % and -
+
+Write a query for 'I%Love%ALGONEX'
+select column_name
+from table_name
+where like='ilovealgonex';
+
+Write any 10 MySQL fucntions with a clear examples
+string functions[concat,lower/upper,trim,substring]
+numeric functions[round,ceil/floor,abc]
+aggregate functions[sum,min,max,count,avg]
+select concat(first_name,' ' last_name)from users;
+select lower(email)from users;
+select count(*)from table_name;
+select trim (name)from users;
+select colmn_name avg(column_name)from table_name;
+select column_name min,max(column_name)from table_name;
+
+what is Lambda Function and list comprehension, give an example for each
+ans(
+print('hello world');
+
+Write a code for factorial & even/odd of a number within a single function
+number=int(input('enter a number'))
+if number %2==0
+print( number is even)
+else:
+print( number is odd);
+
+Write a query structure for Triggers/SP/Views/CTE/Sub query types
+cte's
+with cte-name as(
+select column_name
+from table_name
+where condition
+);
+select*from cte_name;
+
+triggers
+delimiter//
+create trigger trigger_name(
+before/after insert,delete,update
+on table_name
+for each row
+begin
+--sql statements
+)
+end;
+delimiter//;
+
+What AI models you’re using, how you’ll write a best prompt for better resukt
+chatgpt,meta,capgemini
+
+
+
+
+

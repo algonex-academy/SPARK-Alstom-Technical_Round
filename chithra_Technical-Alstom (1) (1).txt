@@ -1,0 +1,158 @@
+1.Design a Ticket Management System.
+
+Requirements:
+You must create 3 tables:
+
+users
+
+tickets
+
+departments, change any id datatype and use all DDL
+
+ans) 
+create table users(
+user_id int primary key auto_increment,
+name char(50),
+email varchr(100)
+);
+
+create table tickets(
+user_id int primary key auto_increment,
+ticket_id varchar,
+ticket_name char(50)
+);
+
+create table departments(
+department_name varchar(100),
+department_id int
+);
+alter table departments add department_number int
+alter table departments replace to dept 
+drop table departments
+truncate table departments
+
+2.Why using VARCHAR for ticket_id is a bad idea?
+ans)
+not a bad idea,why because generally tickets have both charecters and numbers in thid case we are using varchar at the same time varchar has up to length(0-255)
+
+
+
+3.Perform all following Operations
+
+All DML Commands
+
+Fetch Data (JOIN)
+
+Tickets without Department
+
+Users with Multiple Tickets
+ans)
+*.insert into departments(department_name,department_id)values('HS',101);
+*.update table_name
+set column=values
+where condition;
+*.delete from table_name
+where condition;
+
+join
+
+select u.user_id,t.tickets_id,t.user_id from users as u
+join tickets as t
+on u.user_id=t.user_id
+
+4.Replace NULL commission with 0 in a table & each column
+ans)
+select*from table_name
+update table_name
+set table_name=0
+where is null
+
+5.Find 4th Highest Salary
+ans)
+select salary from employees
+order by salary desc
+limit 4 offset 3;
+
+6.What will happen if you DELETE without WHERE
+ans)
+without where condition  it will delete entire table
+
+7.What is the difference between = vs LIKE
+ans)
+generally both are used to assign values but
+between=--it will assign perticular values
+like--wilcards(%,_) it is data pettern searching
+
+
+8.Write a query for 'I%Love%ALGONEX'
+ans)
+select*from algonex
+where description like 'I%Love%ALGONEX'
+
+9.Write any 10 MySQL fucntions with a clear examples
+1.count()-select count(*) from table_name
+2.sum()-select sum(rent) as total_rent from table_name 
+3.min()-select min(salary) as lowest_salary from table_name
+4.avg()-select avg(rent) as avg_rent from table_name
+5.max()-select max(salary) as highest_salary from table_name
+6.concat()-select concat('first_name','last_name')from table_name
+7.round()-select round(avg(rent),0)as avg_rent from table_name
+8.substring()-select substring(email,'@')from table_name
+9.replace()-select replace('@gmail.com',to'@company.com')from table_name
+10.instr()-select instr(description)from table_name
+
+10.what is Lambda Function and list comprehension, give an example for each
+ans)
+print("hello world")
+
+11.Write a code for factorial & even/odd of a number within a single function
+ans)
+def number=int(input('enter the number:'))
+if number%2==0:
+print('number is even')
+else:
+print('number is odd')
+
+
+12.Write a query structure for Triggers/SP/Views/CTE/Sub query types
+
+ans)1.trigger
+delimiter*
+create trigger trigger_name
+before insert/after insert
+on table_name
+for each row
+begin
+-- sql logic
+end *
+delimiter;
+
+2.cte
+with cte_name as(
+select columns
+from table
+where condition
+);
+select*from cte_name;
+
+3.sp
+delimiter*
+create procedure procedure_name([parameters])
+begin
+-- sql logic
+end *
+delimiter;
+call procedure_name([procedure]);
+
+
+13.What AI models you’re using, how you’ll write a best prompt for better result
+
+i am using chatgpt to all my doubts and  to give my best result
+here  my best prompt was 
+ex:related to project
+*first i will send my title and datasets
+*then i will give my entire project that what i did
+*after the chatgpt suggetions i will change to improve my project to  best
+
+
+
